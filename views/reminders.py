@@ -98,34 +98,26 @@ def reminder_page():
 
             with action2:
 
-                if st.button(
+                message = create_reminder_message(
+                    customer
+                )
+
+                url = get_whatsapp_url(
+
+                    customer["mobile"],
+
+                    message
+
+                )
+
+                st.link_button(
+
                     "📱 WhatsApp Reminder",
-                    key=f"whatsapp_{customer['customer_id']}"
-                ):
 
-                    message = create_reminder_message(
-                        customer
-                    )
-                    
-                    url = get_whatsapp_url(
+                    url,
 
-                        customer["mobile"],
-                        message)
+                    use_container_width=True
 
-                    mark_reminder(
-                        customer["customer_id"]
-                    )
-
-                    st.link_button(
-
-                        "📱 Open WhatsApp",
-
-                        url,
-
-                        use_container_width=True
-
-                    )
-
-                    
+                )
 
             st.divider()
