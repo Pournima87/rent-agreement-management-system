@@ -3,7 +3,7 @@ import streamlit as st
 from services.reminder_services import get_expiring_customers
 from notifications.whatsapp import (
     create_reminder_message,
-    open_whatsapp
+    get_whatsapp_url
 )
 from services.customer_service import mark_reminder
 
@@ -106,18 +106,24 @@ def reminder_page():
                     message = create_reminder_message(
                         customer
                     )
+                    
+                    url = get_whatsapp_url(
 
-                    open_whatsapp(
                         customer["mobile"],
-                        message
-                    )
+                        message)
 
                     mark_reminder(
                         customer["customer_id"]
                     )
 
-                    st.success(
-                        "WhatsApp opened successfully."
+                    st.link_button(
+
+                        "📱 Open WhatsApp",
+
+                        url,
+
+                        use_container_width=True
+
                     )
 
                     

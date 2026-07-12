@@ -1,21 +1,25 @@
 import urllib.parse
-import webbrowser
 
 
 # =====================================
-# Open WhatsApp
+# WhatsApp URL
 # =====================================
 
-def open_whatsapp(mobile, message):
+def get_whatsapp_url(mobile, message):
 
     mobile = str(mobile).strip()
 
-# Convert Marathi digits to English
+    # Convert Marathi digits to English
     mobile = mobile.translate(
-    str.maketrans(
-        "०१२३४५६७८९",
-        "0123456789"
+
+        str.maketrans(
+
+            "०१२३४५६७८९",
+
+            "0123456789"
+
         )
+
     )
 
     mobile = mobile.replace(" ", "")
@@ -29,11 +33,17 @@ def open_whatsapp(mobile, message):
     encoded_message = urllib.parse.quote(message)
 
     url = (
-        f"https://wa.me/{mobile}"
-        f"?text={encoded_message}"
+
+        f"https://api.whatsapp.com/send"
+
+        f"?phone={mobile}"
+
+        f"&text={encoded_message}"
+
     )
-    print(url)
-    webbrowser.open(url)
+
+    return url
+
 
 # =====================================
 # Reminder Message
@@ -51,5 +61,6 @@ def create_reminder_message(customer):
 More Enterprises शी संपर्क साधावा.
 
 धन्यवाद.
-More Enterprises
+
+🏠 More Enterprises
 """
