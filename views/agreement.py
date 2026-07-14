@@ -21,6 +21,23 @@ def agreement_page():
             st.session_state["renew_customer_id"]
         )
 
+    # Create Agreement from Owner
+    elif "selected_owner" in st.session_state:
+
+        owner = st.session_state["selected_owner"]
+
+        existing_data = {
+
+            "owner_name": owner["owner_name"],
+
+            "owner_age": owner["owner_age"],
+
+            "owner_address": owner["owner_address"],
+
+            "owner_mobile": owner["owner_mobile"]
+
+        }
+
     data = agreement_form(
         existing_data
     )
@@ -35,6 +52,14 @@ def agreement_page():
                 data
             )
 
+            if "selected_owner" in st.session_state:
+
+                del st.session_state["selected_owner"]
+
+            if "renew_customer_id" in st.session_state:
+
+                del st.session_state["renew_customer_id"]
+
         except Exception as e:
 
             st.error(
@@ -47,6 +72,23 @@ def agreement_page():
             "Documents Generated Successfully."
         )
 
+        safe_name = (
+
+            data["tenant_name"]
+
+            .replace(" ", "_")
+
+            .replace("/", "-")
+
+            .replace("\\", "-")
+
+        )
+
+        agreement_name = f"{safe_name}_Agreement.pdf"
+
+        noc_name = f"{safe_name}_Police_NOC.pdf"
+
+
         with open(
             result["agreement_pdf"],
             "rb"
@@ -58,9 +100,15 @@ def agreement_page():
 
                 file,
 
-                file_name="rent_agreement.pdf"
+                file_name=agreement_name
 
             )
+
+        noc_name = (
+
+            f"{data['tenant_name']}_Police_NOC.pdf"
+
+        )
 
         with open(
             result["noc_pdf"],
@@ -73,6 +121,6 @@ def agreement_page():
 
                 file,
 
-                file_name="police_noc.pdf"
+                file_name=noc_name
 
             )

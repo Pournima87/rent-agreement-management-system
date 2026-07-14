@@ -4,7 +4,7 @@ from views.dashboard import dashboard_page
 from views.agreement import agreement_page
 from views.customer_search import customer_search_page
 from views.reminders import reminder_page
-
+from views.owner_management import owner_management_page
 
 st.set_page_config(
 
@@ -38,6 +38,8 @@ st.session_state.menu = st.sidebar.radio(
 
         "🏠 Dashboard",
 
+        "👤 Owners",
+
         "📄 New Agreement",
 
         "🔍 Customer Search",
@@ -49,6 +51,8 @@ st.session_state.menu = st.sidebar.radio(
     index=[
 
         "🏠 Dashboard",
+
+        "👤 Owners",
 
         "📄 New Agreement",
 
@@ -68,6 +72,10 @@ st.session_state.menu = st.sidebar.radio(
 if st.session_state.menu == "🏠 Dashboard":
 
     dashboard_page()
+
+elif st.session_state.menu == "👤 Owners":
+
+    owner_management_page()
 
 
 elif st.session_state.menu == "📄 New Agreement":

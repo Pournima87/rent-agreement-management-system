@@ -81,7 +81,9 @@ def reminder_page():
                         f"{days} Days Left"
                     )
 
-            action1, action2, action3 = st.columns([2, 2, 6])
+            action1, action2, action3, action4 = st.columns(
+                [2, 2, 2, 4]
+            )
 
             with action1:
 
@@ -98,23 +100,56 @@ def reminder_page():
 
             with action2:
 
-                message = create_reminder_message(
+                tenant_message = create_reminder_message(
                     customer
                 )
 
-                url = get_whatsapp_url(
+                tenant_url = get_whatsapp_url(
 
                     customer["mobile"],
 
-                    message
+                    tenant_message
 
                 )
 
                 st.link_button(
 
-                    "📱 WhatsApp Reminder",
+                    "👤 Tenant",
 
-                    url,
+                    tenant_url,
+
+                    use_container_width=True
+
+                )
+
+            with action3:
+
+                owner_message = f"""
+नमस्कार {customer['owner']} जी,
+
+आपल्या मालमत्तेचा भाडे करार
+{customer['end_date']} रोजी संपत आहे.
+
+कृपया नवीन करारासाठी
+More Enterprises शी संपर्क साधा.
+
+धन्यवाद.
+More Enterprises
+"""
+
+                owner_url = get_whatsapp_url(
+
+                    customer["owner_mobile"],
+
+                    owner_message
+
+                )
+
+                st.link_button(
+
+                    "🏠 Owner",
+
+                    owner_url,
 
                     use_container_width=True
 

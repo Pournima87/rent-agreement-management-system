@@ -25,6 +25,8 @@ def get_expiring_customers():
 
             "owner": customer["owner_name"],
 
+            "owner_mobile": customer["owner_mobile"],
+
             "tenant": customer["tenant_name"],
 
             "mobile": customer["tenant_mobile"],
