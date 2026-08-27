@@ -86,3 +86,4 @@ dist/
 # ===========================
 
 .ipynb_checkpoints/
+records/*.xlsx
