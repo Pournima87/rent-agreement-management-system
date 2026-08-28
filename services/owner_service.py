@@ -8,6 +8,8 @@ from database.owner_repository import (
 
   get_all_owners,
 
+  get_owner_by_mobile,
+
   search_owner,
 
   update_owner,
@@ -29,6 +31,44 @@ def save_owner(data):
 
   return insert_owner(data)
 
+# =====================================
+# Get Or Create Owner
+# =====================================
+
+def get_or_create_owner(data):
+
+    owner_mobile = str(
+        data.get("owner_mobile", "")
+    ).strip()
+
+    # ---------------------------------
+    # Check existing owner
+    # ---------------------------------
+
+    if owner_mobile:
+
+        existing_owner = get_owner_by_mobile(
+            owner_mobile
+        )
+
+        if existing_owner:
+
+            return existing_owner
+
+    # ---------------------------------
+    # Owner does not exist
+    # Create new owner
+    # ---------------------------------
+
+    response = save_owner(
+        data.copy()
+    )
+
+    if response.data:
+
+        return response.data[0]
+
+    return None
 
 # =====================================
 # Get All Owners

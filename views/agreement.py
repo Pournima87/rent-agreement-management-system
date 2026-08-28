@@ -7,11 +7,19 @@ from services.customer_service import get_customer_by_id
 from services.agreement_service import generate_documents
 
 
+# =====================================
+# Agreement Page
+# =====================================
+
 def agreement_page():
 
     st.header(
         "📄 New Rent Agreement"
     )
+
+    # =================================
+    # Existing Customer / Owner Data
+    # =================================
 
     existing_data = None
 
@@ -21,29 +29,41 @@ def agreement_page():
             st.session_state["renew_customer_id"]
         )
 
-    # Create Agreement from Owner
     elif "selected_owner" in st.session_state:
 
         owner = st.session_state["selected_owner"]
 
         existing_data = {
 
-            "owner_name": owner["owner_name"],
+            "owner_name":
+                owner["owner_name"],
 
-            "owner_age": owner["owner_age"],
+            "owner_age":
+                owner["owner_age"],
 
-            "owner_address": owner["owner_address"],
+            "owner_address":
+                owner["owner_address"],
 
-            "owner_mobile": owner["owner_mobile"]
+            "owner_mobile":
+                owner["owner_mobile"]
 
         }
+
+    # =================================
+    # Agreement Form
+    # =================================
 
     data = agreement_form(
         existing_data
     )
 
+    # =================================
+    # Generate Documents
+    # =================================
+
     if st.button(
-        "Generate Documents"
+        "📄 Generate Documents",
+        use_container_width=True
     ):
 
         try:
@@ -52,13 +72,35 @@ def agreement_page():
                 data
             )
 
+            # -----------------------------
+            # Store result in session
+            # -----------------------------
+
+            st.session_state.generated_documents = result
+
+            st.session_state.generated_tenant_name = (
+                data["tenant_name"]
+            )
+
+            # -----------------------------
+            # Clear temporary selection
+            # -----------------------------
+
             if "selected_owner" in st.session_state:
 
-                del st.session_state["selected_owner"]
+                del st.session_state[
+                    "selected_owner"
+                ]
 
             if "renew_customer_id" in st.session_state:
 
-                del st.session_state["renew_customer_id"]
+                del st.session_state[
+                    "renew_customer_id"
+                ]
+
+            st.success(
+                "Documents Generated Successfully."
+            )
 
         except Exception as e:
 
@@ -68,13 +110,24 @@ def agreement_page():
 
             return
 
-        st.success(
-            "Documents Generated Successfully."
+    # =================================
+    # Show Generated Document
+    # =================================
+
+    if "generated_documents" in st.session_state:
+
+        result = st.session_state[
+            "generated_documents"
+        ]
+
+        tenant_name = st.session_state.get(
+            "generated_tenant_name",
+            "Tenant"
         )
 
         safe_name = (
 
-            data["tenant_name"]
+            tenant_name
 
             .replace(" ", "_")
 
@@ -84,43 +137,38 @@ def agreement_page():
 
         )
 
-        agreement_name = f"{safe_name}_Agreement.pdf"
-
-        noc_name = f"{safe_name}_Police_NOC.pdf"
-
-
-        with open(
-            result["agreement_pdf"],
-            "rb"
-        ) as file:
-
-            st.download_button(
-
-                "📄 Download Agreement",
-
-                file,
-
-                file_name=agreement_name
-
-            )
-
-        noc_name = (
-
-            f"{data['tenant_name']}_Police_NOC.pdf"
-
+        combined_name = (
+            f"{safe_name}_Complete_Documents.pdf"
         )
 
-        with open(
-            result["noc_pdf"],
-            "rb"
-        ) as file:
+        # ---------------------------------
+        # Download Combined PDF
+        # ---------------------------------
 
-            st.download_button(
+        try:
 
-                "👮 Download Police NOC",
+            with open(
+                result["combined_pdf"],
+                "rb"
+            ) as file:
 
-                file,
+                st.download_button(
 
-                file_name=noc_name
+                    "📥 Download Complete Documents",
 
+                    file,
+
+                    file_name=combined_name,
+
+                    mime="application/pdf",
+
+                    use_container_width=True
+
+                )
+
+        except FileNotFoundError:
+
+            st.warning(
+                "The generated PDF is no longer available. "
+                "Please generate the documents again."
             )

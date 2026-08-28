@@ -9,21 +9,21 @@ from database.owner_mapper import map_owner
 
 def insert_owner(data):
 
-  owner = map_owner(data)
+    owner = map_owner(data)
 
-  return (
+    return (
 
-    supabase.table(
+        supabase.table(
+            "owner_master"
+        )
 
-      "owner_master"
+        .insert(owner)
+
+        .select("*")
+
+        .execute()
 
     )
-
-    .insert(owner)
-
-    .execute()
-
-  )
 
 
 # =====================================
@@ -32,27 +32,55 @@ def insert_owner(data):
 
 def get_all_owners():
 
-  response = (
+    response = (
 
-    supabase.table(
+        supabase.table(
+            "owner_master"
+        )
 
-      "owner_master"
+        .select("*")
+
+        .order(
+            "owner_name"
+        )
+
+        .execute()
 
     )
 
-    .select("*")
+    return response.data
 
-    .order(
 
-      "owner_name"
+# =====================================
+# Get Owner By Mobile
+# =====================================
+
+def get_owner_by_mobile(owner_mobile):
+
+    response = (
+
+        supabase.table(
+            "owner_master"
+        )
+
+        .select("*")
+
+        .eq(
+            "owner_mobile",
+            owner_mobile
+        )
+
+        .limit(1)
+
+        .execute()
 
     )
 
-    .execute()
+    if response.data:
 
-  )
+        return response.data[0]
 
-  return response.data
+    return None
 
 
 # =====================================
@@ -61,27 +89,24 @@ def get_all_owners():
 
 def search_owner(keyword):
 
-  response = (
+    response = (
 
-    supabase.table(
+        supabase.table(
+            "owner_master"
+        )
 
-      "owner_master"
+        .select("*")
+
+        .or_(
+            f"owner_name.ilike.%{keyword}%,"
+            f"owner_mobile.ilike.%{keyword}%"
+        )
+
+        .execute()
 
     )
 
-    .select("*")
-
-    .or_(
-
-      f"owner_name.ilike.%{keyword}%,owner_mobile.ilike.%{keyword}%"
-
-    )
-
-    .execute()
-
-  )
-
-  return response.data
+    return response.data
 
 
 # =====================================
@@ -90,36 +115,32 @@ def search_owner(keyword):
 
 def update_owner(owner_id, data):
 
+    return (
 
-  return (
+        supabase.table(
+            "owner_master"
+        )
 
-    supabase.table(
+        .update({
 
-      "owner_master"
+            "owner_name": data["owner_name"],
+
+            "owner_age": data["owner_age"],
+
+            "owner_address": data["owner_address"],
+
+            "owner_mobile": data["owner_mobile"]
+
+        })
+
+        .eq(
+            "owner_id",
+            owner_id
+        )
+
+        .execute()
 
     )
-
-    .update({
-      "owner_name": data["owner_name"],
-
-      "owner_age": data["owner_age"],
-
-      "owner_address": data["owner_address"],
-
-      "owner_mobile": data["owner_mobile"]
-    })
-
-    .eq(
-
-      "owner_id",
-
-      owner_id
-
-    )
-
-    .execute()
-
-  )
 
 
 # =====================================
@@ -128,24 +149,19 @@ def update_owner(owner_id, data):
 
 def delete_owner(owner_id):
 
-  return (
+    return (
 
-    supabase.table(
+        supabase.table(
+            "owner_master"
+        )
 
-      "owner_master"
+        .delete()
+
+        .eq(
+            "owner_id",
+            owner_id
+        )
+
+        .execute()
 
     )
-
-    .delete()
-
-    .eq(
-
-      "owner_id",
-
-      owner_id
-
-    )
-
-    .execute()
-
-  )
