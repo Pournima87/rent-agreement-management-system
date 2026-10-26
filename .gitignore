@@ -87,3 +87,8 @@ dist/
 
 .ipynb_checkpoints/
 records/*.xlsx
+
+# Generated rent agreement PDFs
+*_Complete_Documents.pdf
+*_Police_NOC.pdf
+*_Rent_Agreement.pdf
