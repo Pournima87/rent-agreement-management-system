@@ -125,8 +125,6 @@ def update_owner(owner_id, data):
 
             "owner_name": data["owner_name"],
 
-            "owner_age": data["owner_age"],
-
             "owner_address": data["owner_address"],
 
             "owner_mobile": data["owner_mobile"]

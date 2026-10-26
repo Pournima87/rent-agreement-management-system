@@ -38,9 +38,6 @@ def agreement_page():
             "owner_name":
                 owner["owner_name"],
 
-            "owner_age":
-                owner["owner_age"],
-
             "owner_address":
                 owner["owner_address"],
 

@@ -35,11 +35,6 @@ def agreement_form(existing_data=None):
             value=get_value("owner_name")
         )
 
-        data["owner_age"] = st.text_input(
-            "वय",
-            value=get_value("owner_age")
-        )
-
         data["owner_address"] = st.text_area(
             "मालकाचा पत्ता",
             value=get_value("owner_address")
@@ -64,12 +59,6 @@ def agreement_form(existing_data=None):
         data["tenant_name"] = st.text_input(
             "भाडेकरूचे नाव",
             value=get_value("tenant_name")
-        )
-
-
-        data["tenant_age"] = st.text_input(
-            "भाडेकरूचे वय",
-            value=get_value("tenant_age")
         )
 
 

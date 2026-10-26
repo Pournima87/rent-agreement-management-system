@@ -36,27 +36,21 @@ def add_text(
 
 
 
+
 def add_address(
     page,
     x,
     y,
     text
 ):
-
-    # convert enter key into html line break
-    text = text.replace(
-        "\n",
-        "<br>"
-    )
-
+    text = str(text or "").replace("\n", "<br>")
 
     rect = fitz.Rect(
         x,
-        y - 14,
+        y - 12,
         x + 260,
-        y + 140
+        y + 100
     )
-
 
     page.insert_htmlbox(
         rect,
@@ -67,11 +61,13 @@ def add_address(
             font-family:Noto Sans Devanagari;
             font-size:13px;
             line-height:1.7;
+            overflow-wrap:break-word;
         ">
             {text}
         </div>
         """
     )
+
 
 
 
@@ -161,7 +157,7 @@ def generate_agreement_pdf(data):
     add_text(
         page,
         200,
-        555,
+        550,
         data["owner_name"]
     )
 
@@ -170,7 +166,7 @@ def generate_agreement_pdf(data):
     add_address(
         page,
         150,
-        577,
+        574,
         data["owner_address"]
     )
 
@@ -181,7 +177,7 @@ def generate_agreement_pdf(data):
     add_text(
         page,
         215,
-        676,
+        671,
         data["tenant_name"]
     )
 
@@ -190,7 +186,7 @@ def generate_agreement_pdf(data):
     add_address(
         page,
         150,
-        699,
+        694,
         data["tenant_address"]
     )
 
@@ -205,7 +201,7 @@ def generate_agreement_pdf(data):
     add_address(
         page,
         175,
-        184,
+        178,
         data["property_address"]
     )
 

@@ -33,27 +33,21 @@ def add_text(
 
 
 
+
 def add_address(
     page,
     x,
     y,
     text
 ):
-
-    # convert enter key into html line break
-    text = text.replace(
-        "\n",
-        "<br>"
-    )
-
+    text = str(text or "").replace("\n", "<br>")
 
     rect = fitz.Rect(
         x,
-        y - 14,
-        x + 350,
-        y + 70
+        y - 12,
+        x + 300,
+        y + 65
     )
-
 
     page.insert_htmlbox(
         rect,
@@ -62,8 +56,9 @@ def add_address(
             margin:0;
             padding:0;
             font-family:Noto Sans Devanagari;
-            font-size:12px;
-            line-height:1.3;
+            font-size:13px;
+            line-height:1.2;
+            overflow-wrap:break-word;
         ">
             {text}
         </div>
@@ -73,12 +68,13 @@ def add_address(
 
 
 
+
 def add_single_line(
     page,
     x,
     y,
     text,
-    size=12
+    size=13
 ):
 
     rect = fitz.Rect(
@@ -173,11 +169,9 @@ def generate_noc_pdf(data):
 
     add_address(
         page,
-        275,
-        230,
+        268,
+        215,
         data["owner_name"]
-        + ", वय : "
-        + data["owner_age"]
         + ", "
         + data["owner_address"]
         + ", मो : "
@@ -191,11 +185,9 @@ def generate_noc_pdf(data):
 
     add_address(
         page,
-        275,
-        305,
+        268,
+        290,
         data["tenant_name"]
-        + ", वय : "
-        + data["tenant_age"]
         + ", "
         + data["tenant_address"]
         + ", मो : "
@@ -208,7 +200,7 @@ def generate_noc_pdf(data):
     add_single_line(
         page,
         335,
-        360,
+        365,
         data["aadhaar"]
     )
 
@@ -218,7 +210,7 @@ def generate_noc_pdf(data):
     add_single_line(
         page,
         335,
-        388,
+        380,
         data["pan"]
     )
 
@@ -228,7 +220,7 @@ def generate_noc_pdf(data):
     add_address(
         page,
         275,
-        455,
+        445,
         data["property_address"]
     )
 
@@ -295,7 +287,7 @@ def generate_noc_pdf(data):
     add_address(
         page,
         275,
-        550,
+        547,
         data["office_details"]
     )
 
@@ -308,7 +300,7 @@ def generate_noc_pdf(data):
     add_address(
         page,
         300,
-        599,
+        595,
         "१) "
         + data["reference_1"]
         + "\n२) "

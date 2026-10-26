@@ -37,7 +37,6 @@ def create_master_file():
         # -----------------------------
 
         "Owner Name",
-        "Owner Age",
         "Owner Address",
         "Owner Mobile",
 
@@ -46,7 +45,6 @@ def create_master_file():
         # -----------------------------
 
         "Tenant Name",
-        "Tenant Age",
         "Tenant Address",
         "Tenant Mobile",
 
@@ -171,12 +169,10 @@ def save_customer_master(data):
         data.get("created_date", ""),
 
         data.get("owner_name", ""),
-        data.get("owner_age", ""),
         data.get("owner_address", ""),
         data.get("owner_mobile", ""),
 
         data.get("tenant_name", ""),
-        data.get("tenant_age", ""),
         data.get("tenant_address", ""),
         data.get("tenant_mobile", ""),
 
@@ -288,12 +284,10 @@ def get_customer_by_id(customer_id):
                 "created_date": customer.get("Created Date", ""),
 
                 "owner_name": customer.get("Owner Name", ""),
-                "owner_age": customer.get("Owner Age", ""),
                 "owner_address": customer.get("Owner Address", ""),
                 "owner_mobile": customer.get("Owner Mobile", ""),
 
                 "tenant_name": customer.get("Tenant Name", ""),
-                "tenant_age": customer.get("Tenant Age", ""),
                 "tenant_address": customer.get("Tenant Address", ""),
                 "tenant_mobile": customer.get("Tenant Mobile", ""),
 

@@ -5,12 +5,10 @@ create table if not exists customer_master (
     created_date date,
 
     owner_name text,
-    owner_age text,
     owner_address text,
     owner_mobile text,
 
     tenant_name text,
-    tenant_age text,
     tenant_address text,
     tenant_mobile text,
 
